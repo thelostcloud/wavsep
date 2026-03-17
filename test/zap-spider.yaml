@@ -1,0 +1,41 @@
+env:
+  contexts:
+  - name: wavsep
+    urls:
+    - http://127.0.0.1:8080/wavsep
+    includePaths:
+    - http://127.0.0.1:8080/wavsep.*
+    excludePaths:
+    # This URL is a test page with a deliberate compilation error 
+    - http://127.0.0.1:8080/wavsep/passive/info/info-server-stack-trace.jsp
+    authentication:
+      verification:
+        method: response
+        pollFrequency: 60
+        pollUnits: requests
+        pollUrl: ""
+        pollPostData: ""
+    sessionManagement:
+      method: cookie
+    technology:
+      exclude:
+      - Windows
+    structure: {}
+  parameters: {}
+jobs:
+- name: spider active
+  type: spider
+  parameters:
+    url: http://127.0.0.1:8080/wavsep/index-active.jsp
+    maxDepth: 0
+  tests:
+  - name: At least 100 URLs found
+    type: stats
+    onFail: INFO
+    statistic: automation.spider.urls.added
+    operator: '>='
+    value: 100
+- name: spider passive
+  type: spider
+  parameters:
+    url: http://127.0.0.1:8080/wavsep/index-passive.jsp

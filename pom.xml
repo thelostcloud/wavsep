@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>wavsep</groupId>
+    <artifactId>wavsep</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+    <name>WAVSEP</name>
+    <url>https://github.com/zaproxy/wavsep</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20211205</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.13.1.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Tells Maven where Java source files are -->
+        <sourceDirectory>src</sourceDirectory>
+
+        <finalName>wavsep</finalName>
+
+        <plugins>
+            <!-- Java compilation plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+			<plugin>
+			    <artifactId>maven-dependency-plugin</artifactId>
+			    <executions>
+				<execution>
+				    <phase>prepare-package</phase>
+				    <goals>
+					<goal>copy-dependencies</goal>
+				    </goals>
+				    <configuration>
+					<outputDirectory>${project.build.directory}/wavsep/WEB-INF/lib</outputDirectory>
+				    </configuration>
+				</execution>
+			    </executions>
+			</plugin>
+
+            <!-- WAR plugin -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <warSourceDirectory>WebContent</warSourceDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
